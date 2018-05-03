@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+
+    <EditText
+        android:id="@+id/from"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="From" />
+
+    <EditText
+        android:id="@+id/to"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/from"
+        android:ems="10"
+        android:hint="To"
+         />
+
+
+    <EditText
+        android:id="@+id/checkIn"
+        android:layout_below="@id/from"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/from"
+        android:layout_marginTop="65dp"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="Chech-in Date"
+         />
+
+    <EditText
+        android:id="@+id/chechOut"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/checkIn"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="Chech-out Date" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="154dp"
+        android:onClick="send"
+        android:text="Search Flights" />
+
+
+
+</RelativeLayout>
+
