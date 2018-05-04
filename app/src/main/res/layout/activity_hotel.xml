@@ -37,7 +37,7 @@
         />
 
     <EditText
-        android:id="@+id/chechOut"
+        android:id="@+id/checkOut"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

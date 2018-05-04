@@ -6,8 +6,31 @@
 
     >
 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#FFBF00">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:text="City" />
+
+    </FrameLayout>
+
     <ListView
         android:id="@+id/list"
+        android:layout_marginTop="120dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#d3d3d3">
+
+
+
+    </ListView>
 </RelativeLayout>

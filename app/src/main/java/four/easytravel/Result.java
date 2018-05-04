@@ -20,7 +20,9 @@ public class Result extends AppCompatActivity {
 
     private String TAG = Result.class.getSimpleName();
     private ListView lv;
-    private String checkIn,checkOut, from, to;
+    private String checkIn,checkOut, latLng;
+    public static double lat;
+    public static double lng;
 
     ArrayList<HashMap<String, String>> contactList;
 
@@ -31,10 +33,11 @@ public class Result extends AppCompatActivity {
 
         checkIn = getIntent().getStringExtra("checkIn");
         checkOut = getIntent().getStringExtra("checkOut");
-        from = getIntent().getStringExtra("from");
-        to = getIntent().getStringExtra("to");
+        lat = getIntent().getDoubleExtra("lat", 0);
+        lng = getIntent().getDoubleExtra("lng", 0);
 
-      //  Toast.makeText(getApplicationContext(), from + to + checkIn + checkOut, Toast.LENGTH_LONG).show();
+
+
 
         contactList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
@@ -54,9 +57,8 @@ public class Result extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "https://api.sandbox.amadeus.com/v1.2/flights/extensive-search?apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF&origin=BOS&destination=NYC&departure_date=2018-06-25";
-           // String url = "https://api.sandbox.amadeus.com/v1.2/flights/extensive-search?apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF&origin="+from+"&destination="+to+"&departure_date="+checkIn;
-           // String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in="+from+"&check_out="+to+"&number_of_results=50&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
+
+            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             //  String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in=2018-09-01&check_out=2018-09-03&number_of_results=10&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             String jsonStr = sh.makeServiceCall(url);
 
@@ -71,21 +73,27 @@ public class Result extends AppCompatActivity {
                     // looping through All Contacts
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject c = results.getJSONObject(i);
-                      //  String origen = c.getString("origen");
-                      //  String address = c.getString("address");
-                      //  String total_price = c.getString("total_price");
-                        String price = c.getString("price");
+
+
+                        String property_name = c.getString("property_name");
+
+                        JSONObject address = c.getJSONObject("address");
+                        String line1 = address.getString("line1");
+
+                        JSONObject total_price = c.getJSONObject("total_price");
+                        String amount = total_price.getString("amount");
+
 
 
 
                         // tmp hash map for single contact
                         HashMap<String, String> result = new HashMap<>();
 
-                        // adding each child node to HashMap key => value
-                     //   result.put("origen", origen);
-                     //   result.put("address", address);
-                     //   result.put("total_price", total_price);
-                        result.put("price", price);
+                      //  adding each child node to HashMap key => value
+                      //  result.put("origen", origen);
+                        result.put("property_name", property_name);
+                        result.put("line1", line1);
+                        result.put("amount", amount);
 
 
                         // adding contact to contact list
@@ -123,10 +131,9 @@ public class Result extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
-                 //   R.layout.list_item, new String[]{ "property_name","total_price","price"},
-                 //   new int[]{R.id.address,R.id.total_price,R.id.price});
-                    R.layout.list_item, new String[]{ "price"},
-                    new int[]{R.id.price});
+                    R.layout.list_item, new String[]{ "property_name","line1","amount"},
+                    new int[]{R.id.property_name,R.id.line1,R.id.amount});
+
             lv.setAdapter(adapter);
         }
     }

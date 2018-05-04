@@ -26,6 +26,9 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     String checkInString, checkOutString;
     private int mYear, mMonth, mDay;
     String zero;
+    LatLng latLng;
+    EditText location_tf;
+    String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +36,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_hotel);
 
         checkIn=(EditText)findViewById(R.id.checkIn);
-        checkOut=(EditText)findViewById(R.id.chechOut);
-
-
+        checkOut=(EditText)findViewById(R.id.checkOut);
 
 
 
@@ -44,46 +45,6 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-
-
-
-        EditText location_tf = (EditText) findViewById(R.id.TFadreess);
-        String location = location_tf.getText().toString();
-        List<Address> addressList;
-        if (location != null || !location.equals("")) ;
-        {
-
-
-            Geocoder geocoder = new Geocoder(this);
-
-
-
-
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-                Address address = addressList.get(0);
-                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-
-
-
-                 checkInString = checkIn.getText().toString();
-                 checkOutString = checkOut.getText().toString();
-
-
-
-
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(Hotel.this, "Write a city", Toast.LENGTH_SHORT).show();
-            }
-
-
-
-
-
-        }
 
 
 
@@ -145,10 +106,51 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
+        location_tf = (EditText) findViewById(R.id.TFadreess);
+        location = location_tf.getText().toString();
+        List<Address> addressList;
+        if (location != null || !location.equals("")) ;
+        {
+
+
+            Geocoder geocoder = new Geocoder(this);
+
+
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+                Address address = addressList.get(0);
+
+                lat = address.getLatitude();
+                lng = address.getLongitude();
+
+              //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+
+
+
+
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(Hotel.this, "Write a city", Toast.LENGTH_SHORT).show();
+            }
+
+
+
+        }
+
+
+
+        checkInString = checkIn.getText().toString();
+        checkOutString = checkOut.getText().toString();
+
 
                 Intent intent = new Intent(this, Result.class);
 
-              //  intent.putExtra("to", to_String);
+                intent.putExtra("lat", lat);
+                intent.putExtra("lng", lng);
                 intent.putExtra("checkIn", checkInString);
                 intent.putExtra("checkOut", checkOutString);
                 startActivity(intent);

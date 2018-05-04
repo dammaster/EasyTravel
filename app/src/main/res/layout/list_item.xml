@@ -3,53 +3,51 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+
     >
 
-
-    <TextView
-        android:id="@+id/price"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:textColor="@color/colorAccent" />
-    <!--
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:layout_margin="5dp"
+        android:background="#fff"
+        >
+
+
+
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/property_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
-        android:textStyle="bold" />
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:text="property_name"/>
 
     <TextView
-        android:id="@+id/total_price"
+        android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#5d5d5d"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:text="amount"/>
+    <TextView
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5d5d5d"
+        android:textStyle="italic"
+        android:text="adress"/>
 
-        -->
+
 
 </LinearLayout>
 
 
-<!--
-
-{
-  "origin" : "BOS",
-  "currency" : "USD",
-  "results" : [ {
-    "destination" : "NYC",
-    "departure_date" : "2018-06-26",
-    "return_date" : "2018-06-28",
-    "price" : "140.40",
-    "airline" : "UA"
-  } ]
-}
-
-
-
--->
+</LinearLayout>
