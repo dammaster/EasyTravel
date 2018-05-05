@@ -4,9 +4,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -20,9 +23,11 @@ public class Result extends AppCompatActivity {
 
     private String TAG = Result.class.getSimpleName();
     private ListView lv;
-    private String checkIn,checkOut, latLng;
+    private String checkIn,checkOut,location;
     public static double lat;
     public static double lng;
+    Button buttonSearch;
+    TextView dateCheckInCheckOut;
 
     ArrayList<HashMap<String, String>> contactList;
 
@@ -31,10 +36,21 @@ public class Result extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+
+
+        location = getIntent().getStringExtra("location");
         checkIn = getIntent().getStringExtra("checkIn");
         checkOut = getIntent().getStringExtra("checkOut");
         lat = getIntent().getDoubleExtra("lat", 0);
         lng = getIntent().getDoubleExtra("lng", 0);
+
+
+        buttonSearch = (Button) findViewById(R.id.buttonSearch);
+        buttonSearch.setText(location);
+
+        dateCheckInCheckOut=(TextView)findViewById(R.id.dateCheckInCheckOut);
+        String checkInOut = checkIn + " - " + checkOut;
+        dateCheckInCheckOut.setText(checkInOut);
 
 
 
@@ -43,13 +59,19 @@ public class Result extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.list);
 
         new GetContacts().execute();
+
+
+
+
+
+
     }
 
     private class GetContacts extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(Result.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+         //   Toast.makeText(Result.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
 
         }
 
@@ -82,6 +104,9 @@ public class Result extends AppCompatActivity {
 
                         JSONObject total_price = c.getJSONObject("total_price");
                         String amount = total_price.getString("amount");
+                        String currency = total_price.getString("currency");
+
+
 
 
 
@@ -94,6 +119,7 @@ public class Result extends AppCompatActivity {
                         result.put("property_name", property_name);
                         result.put("line1", line1);
                         result.put("amount", amount);
+                        result.put("currency", currency);
 
 
                         // adding contact to contact list
@@ -131,10 +157,22 @@ public class Result extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
-                    R.layout.list_item, new String[]{ "property_name","line1","amount"},
-                    new int[]{R.id.property_name,R.id.line1,R.id.amount});
+                    R.layout.list_item, new String[]{ "property_name","line1","amount","currency"},
+                    new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency});
 
             lv.setAdapter(adapter);
         }
     }
+
+
+
+
+
+
+
+    public void back(View view){
+        finish();
+
+    }
+
 }

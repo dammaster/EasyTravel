@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     LatLng latLng;
     EditText location_tf;
     String location;
+    Button b1,b2,b3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,10 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
         checkIn=(EditText)findViewById(R.id.checkIn);
         checkOut=(EditText)findViewById(R.id.checkOut);
+
+        b1 = (Button) findViewById(R.id.b1);
+        b2 = (Button) findViewById(R.id.b2);
+        b3 = (Button) findViewById(R.id.b3);
 
 
 
@@ -126,7 +132,18 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
               //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
+                checkInString = checkIn.getText().toString();
+                checkOutString = checkOut.getText().toString();
 
+
+                Intent intent = new Intent(this, Result.class);
+
+                intent.putExtra("lat", lat);
+                intent.putExtra("lng", lng);
+                intent.putExtra("location", location);
+                intent.putExtra("checkIn", checkInString);
+                intent.putExtra("checkOut", checkOutString);
+                startActivity(intent);
 
 
 
@@ -134,7 +151,9 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(Hotel.this, "Write a city", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Hotel.this, "Sorry, city not found, try again!", Toast.LENGTH_LONG).show();
+
+
             }
 
 
@@ -143,22 +162,34 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        checkInString = checkIn.getText().toString();
-        checkOutString = checkOut.getText().toString();
 
-
-                Intent intent = new Intent(this, Result.class);
-
-                intent.putExtra("lat", lat);
-                intent.putExtra("lng", lng);
-                intent.putExtra("checkIn", checkInString);
-                intent.putExtra("checkOut", checkOutString);
-                startActivity(intent);
 
 
 
 
         }
+
+
+    public void singapore(View view){
+        Intent intent = new Intent(this, GooglePlace.class);
+        intent.putExtra("cityLocate", "Singapore");
+        startActivity(intent);
+
+    }
+    public void santamonica(View view){
+        Intent intent = new Intent(this, GooglePlace.class);
+        intent.putExtra("cityLocate", "Santa Monica");
+        startActivity(intent);
+
+    }
+    public void lasvegas(View view){
+        Intent intent = new Intent(this, GooglePlace.class);
+        intent.putExtra("cityLocate", "Las Vegas");
+        startActivity(intent);
+
+    }
+
+
 
     }
 

@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingTop="5dp"
+
     >
 
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        >
+
+
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#408DF4"
+    android:padding="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
 
         <EditText
@@ -17,36 +40,34 @@
             android:layout_height="wrap_content"
             android:hint="City"
             android:background="#fff"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:padding="10dp"
             />
 
     <EditText
         android:id="@+id/checkIn"
-        android:layout_below="@id/TFadreess"
-        android:layout_width="150dp"
+        android:layout_width="166dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/from"
+        android:layout_below="@id/TFadreess"
         android:layout_marginTop="65dp"
-        android:ems="10"
         android:background="#fff"
-        android:padding="10dp"
-        android:inputType="date"
+        android:ems="10"
         android:hint="Chech-in Date"
-        />
+        android:inputType="date"
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/checkOut"
-        android:layout_width="150dp"
+        android:layout_width="166dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/checkIn"
-        android:ems="10"
         android:background="#fff"
-        android:padding="10dp"
+        android:ems="10"
+        android:hint="Chech-out Date"
         android:inputType="date"
-        android:hint="Chech-out Date" />
+        android:padding="10dp" />
 
 
     <Button
@@ -56,11 +77,66 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="160dp"
-        android:background="#6d84b4"
+        android:background="#FFBF00"
         android:onClick="onSearch"
         android:text="Search"
-        android:textColor="#fff" />
+        android:textColor="#3F51B5" />
 
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+        <Button
+            android:id="@+id/b1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/singapore"
+            android:onClick="singapore"
+            android:padding="5dp"
+            android:text="Explorer Singapore"
+            android:textAlignment="textStart"
+            android:textColor="#fff"
+            android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/b2"
+        android:layout_below="@id/b1"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/santamonica"
+        android:onClick="santamonica"
+        android:padding="5dp"
+        android:text="Explorer Santa Monica"
+        android:textAlignment="textStart"
+        android:textColor="#fff"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/b3"
+        android:layout_below="@id/b2"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/lasvegas"
+        android:onClick="lasvegas"
+        android:padding="5dp"
+        android:text="Explorer Las Vegas"
+        android:textAlignment="textStart"
+        android:textColor="#fff"
+        android:textStyle="bold"/>
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+    </ScrollView>
 
 
 
