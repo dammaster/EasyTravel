@@ -30,27 +30,30 @@
                 >
 
 
-        <Button
-            android:id="@+id/buttonSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:onClick="back"
-            android:background="@null"
-            android:textAlignment="textStart"
-            android:text="City" />
+                <Button
+                    android:id="@+id/buttonSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:onClick="back"
+                    android:background="@null"
+                    android:textAlignment="textStart"
+                    android:textSize="17dp"
+                    android:drawableLeft="@drawable/ic_search_black_24dp"
+                    android:drawableTint="#ccc"
+                    android:text="City" />
 
-        <TextView
-            android:id="@+id/dateCheckInCheckOut"
-            android:layout_below="@+id/buttonSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#EFECEB"
-            android:textColor="#202020"
-            android:text="May 5 - May 20" />
+                <TextView
+                    android:id="@+id/dateCheckInCheckOut"
+                    android:layout_below="@+id/buttonSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:background="#EFECEB"
+                    android:textColor="#202020"
+                    android:text="May 5 - May 20" />
 
-        </RelativeLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
 

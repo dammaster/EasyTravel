@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Hotel extends AppCompatActivity implements View.OnClickListener {
@@ -31,6 +33,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     EditText location_tf;
     String location;
     Button b1,b2,b3;
+    String currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,10 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-
-
-
+        // currentDate dafault
+       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       // currentDate = sdf.format(new Date());
+       // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
 
 
     }
@@ -135,6 +139,9 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 checkInString = checkIn.getText().toString();
                 checkOutString = checkOut.getText().toString();
 
+                if (checkInString.isEmpty()){Toast.makeText(this, "Check-in date is empty", Toast.LENGTH_LONG).show(); return;}
+                if (checkOutString.isEmpty()){Toast.makeText(this, "Check-Out date is empty", Toast.LENGTH_LONG).show(); return;}
+
 
                 Intent intent = new Intent(this, Result.class);
 
@@ -151,7 +158,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(Hotel.this, "Sorry, city not found, try again!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Sorry, city not found, try again!", Toast.LENGTH_LONG).show();
 
 
             }
@@ -159,9 +166,6 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
         }
-
-
-
 
 
 
