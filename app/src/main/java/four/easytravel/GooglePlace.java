@@ -9,6 +9,7 @@ public class GooglePlace extends AppCompatActivity {
     public TextView city;
     public String cityLocate;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
