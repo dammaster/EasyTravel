@@ -7,6 +7,8 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,6 +42,8 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
 
+
+
         checkIn=(EditText)findViewById(R.id.checkIn);
         checkOut=(EditText)findViewById(R.id.checkOut);
 
@@ -58,6 +62,10 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
        // currentDate = sdf.format(new Date());
        // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
+
+
+       //hidden keyboard
+       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
     }
@@ -117,6 +125,9 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
         location_tf = (EditText) findViewById(R.id.TFadreess);
+
+
+
         location = location_tf.getText().toString();
         List<Address> addressList;
         if (location != null || !location.equals("")) ;

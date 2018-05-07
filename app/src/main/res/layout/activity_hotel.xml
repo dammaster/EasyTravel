@@ -47,7 +47,7 @@
                     android:textStyle="bold"
                     android:textSize="17dp"
                     android:padding="10dp"
-
+                    android:focusable="auto"
                     />
 
 
