@@ -1,10 +1,12 @@
 package four.easytravel;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,6 +30,7 @@ public class Result extends AppCompatActivity {
     public static double lng;
     Button buttonSearch;
     TextView dateCheckInCheckOut;
+    String property_name,line1,amount,currency;
 
     ArrayList<HashMap<String, String>> contactList;
 
@@ -58,7 +61,23 @@ public class Result extends AppCompatActivity {
         contactList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(Result.this, GooglePlace.class);
+                myIntent.putExtra("cityLocate", line1);
+                startActivity(myIntent);
+
+
+            }
+        });
+
+
+
+
         new GetContacts().execute();
+
+
+
 
 
 
@@ -97,15 +116,14 @@ public class Result extends AppCompatActivity {
                         JSONObject c = results.getJSONObject(i);
 
 
-                        String property_name = c.getString("property_name");
+                        property_name = c.getString("property_name");
 
                         JSONObject address = c.getJSONObject("address");
-                        String line1 = address.getString("line1");
+                        line1 = address.getString("line1");
 
                         JSONObject total_price = c.getJSONObject("total_price");
-                        String amount = total_price.getString("amount");
-                        String currency = total_price.getString("currency");
-
+                        amount = total_price.getString("amount");
+                        currency = total_price.getString("currency");
 
 
 
@@ -161,6 +179,11 @@ public class Result extends AppCompatActivity {
                     new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency});
 
             lv.setAdapter(adapter);
+
+
+
+
+
         }
     }
 
@@ -174,5 +197,8 @@ public class Result extends AppCompatActivity {
         finish();
 
     }
+
+
+
 
 }
