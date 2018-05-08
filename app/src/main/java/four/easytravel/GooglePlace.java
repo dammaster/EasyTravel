@@ -72,7 +72,10 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(hotelLatLng, 15);
         map.animateCamera(cameraUpdate);
-        map.addMarker(new MarkerOptions().position(hotelLatLng).title(property_name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        if(property_name != null) {
+            map.addMarker(new MarkerOptions().position(hotelLatLng).title(property_name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
     }
 
     public void speakButtonPressed(View view){
@@ -100,8 +103,9 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
                     voiceInput = (result.get(0)).replaceAll("\\s+","");
 
                     map.clear();
-                    map.addMarker(new MarkerOptions().position(hotelLatLng).title(property_name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-
+                    if(property_name != null) {
+                        map.addMarker(new MarkerOptions().position(hotelLatLng).title(property_name).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    }
                     new GetNearbyPlaces().execute();
                 }
                 break;

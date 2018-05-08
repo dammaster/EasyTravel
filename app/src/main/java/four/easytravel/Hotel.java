@@ -203,18 +203,21 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     public void singapore(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Singapore");
+        intent.putExtra("latLng", new LatLng(1.290270, 103.851959));
         startActivity(intent);
 
     }
     public void santamonica(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Santa Monica");
+        intent.putExtra("latLng", new LatLng(34.024212, -118.496475));
         startActivity(intent);
 
     }
     public void lasvegas(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Las Vegas");
+        intent.putExtra("latLng", new LatLng(36.114647, -115.172813));
         startActivity(intent);
 
     }
