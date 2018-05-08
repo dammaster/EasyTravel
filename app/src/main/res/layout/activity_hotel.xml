@@ -52,8 +52,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="City"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:background="#fff"
                     android:drawableLeft="@drawable/ic_search_black_24dp"
                     android:drawableTint="#ccc"
