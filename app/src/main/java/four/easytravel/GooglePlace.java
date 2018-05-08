@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 public class GooglePlace extends AppCompatActivity {
 
-    public TextView city;
-    public String cityLocate;
+    public TextView city,property;
+    public String property_name,cityLocate;
 
 
     @Override
@@ -18,6 +18,11 @@ public class GooglePlace extends AppCompatActivity {
         cityLocate = getIntent().getStringExtra("cityLocate");
         city = findViewById(R.id.city);
         city.setText(cityLocate);
+
+
+        property_name = getIntent().getStringExtra("property_name");
+        property = findViewById(R.id.property);
+        property.setText(property_name);
 
     }
 }
