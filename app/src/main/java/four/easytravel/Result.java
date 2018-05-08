@@ -15,6 +15,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -127,6 +129,10 @@ public class Result extends AppCompatActivity {
                         amount = total_price.getString("amount");
                         currency = total_price.getString("currency");
 
+                        JSONObject location = c.getJSONObject("location");
+                        String latString = String.valueOf(location.getDouble("latitude"));
+                        String lngString = String.valueOf(location.getDouble("longitude"));
+
 
 
 
@@ -140,6 +146,8 @@ public class Result extends AppCompatActivity {
                         result.put("line1", line1);
                         result.put("amount", amount);
                         result.put("currency", currency);
+                        result.put("latitude", latString);
+                        result.put("longitude", lngString);
 
 
                         // adding contact to contact list
@@ -190,11 +198,14 @@ public class Result extends AppCompatActivity {
                     Map<String, Object> map = (Map<String, Object>)lv.getItemAtPosition(position);
                     String _property_name = (String) map.get("property_name");
                     String _line1 = (String) map.get("line1");
+                    //get latlng from strings
+                    LatLng latLng = new LatLng(Double.parseDouble( (String) map.get("latitude")),(Double.parseDouble( (String) map.get("longitude"))));
 
 
                     Intent i = new Intent(Result.this, GooglePlace.class);
                     i.putExtra("property_name", _property_name);
                     i.putExtra("cityLocate", _line1);
+                    i.putExtra("latLng", latLng);
 
                     startActivity(i);
                 }
