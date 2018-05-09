@@ -33,14 +33,14 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     String st;
     public static double lat;
     public static double lng;
-    EditText checkIn,checkOut;
+    EditText checkIn, checkOut;
     String checkInString, checkOutString;
     private int mYear, mMonth, mDay;
     String zero;
     LatLng latLng;
     //EditText location_tf;
     String location;
-    Button b1,b2,b3;
+    Button b1, b2, b3, b4;
     String currentDate;
     PlaceAutocompleteFragment autocompleteFragment;
 
@@ -49,13 +49,13 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
 
-        checkIn=(EditText)findViewById(R.id.checkIn);
-        checkOut=(EditText)findViewById(R.id.checkOut);
+        checkIn = (EditText) findViewById(R.id.checkIn);
+        checkOut = (EditText) findViewById(R.id.checkOut);
 
         b1 = (Button) findViewById(R.id.b1);
         b2 = (Button) findViewById(R.id.b2);
         b3 = (Button) findViewById(R.id.b3);
-
+        b4 = (Button) findViewById(R.id.b4);
 
 
         checkIn.setOnClickListener(this);
@@ -79,11 +79,10 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         });
 
 
-
         // currentDate dafault
-       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-       // currentDate = sdf.format(new Date());
-       // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // currentDate = sdf.format(new Date());
+        // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
 
 
     }
@@ -104,15 +103,19 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            if (monthOfYear <10){ zero = "0";}else{zero = "";}
-                            checkIn.setText(year + "-" + zero +(monthOfYear + 1) + "-" + dayOfMonth);
-
+                            if (monthOfYear < 10) {
+                                zero = "0";
+                            } else {
+                                zero = "";
+                            }
+                            checkIn.setText(year + "-" + zero + (monthOfYear + 1) + "-" + dayOfMonth);
 
 
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
-        }if(view == checkOut) {
+        }
+        if (view == checkOut) {
             final Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
@@ -126,10 +129,12 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                                               int monthOfYear, int dayOfMonth) {
 
 
-
-
-                            if (monthOfYear <10){ zero = "0";}else{zero = "";}
-                            checkOut.setText(year + "-" + zero +(monthOfYear + 1) + "-" + dayOfMonth);
+                            if (monthOfYear < 10) {
+                                zero = "0";
+                            } else {
+                                zero = "";
+                            }
+                            checkOut.setText(year + "-" + zero + (monthOfYear + 1) + "-" + dayOfMonth);
 
                         }
                     }, mYear, mMonth, mDay);
@@ -139,7 +144,6 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void onSearch(View view) {
-
 
 
         //location_tf = (EditText) findViewById(R.id.TFadreess);
@@ -159,14 +163,20 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 lat = address.getLatitude();
                 lng = address.getLongitude();
 
-              //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
                 checkInString = checkIn.getText().toString();
                 checkOutString = checkOut.getText().toString();
 
-                if (checkInString.isEmpty()){Toast.makeText(this, "Check-in date is empty", Toast.LENGTH_LONG).show(); return;}
-                if (checkOutString.isEmpty()){Toast.makeText(this, "Check-Out date is empty", Toast.LENGTH_LONG).show(); return;}
+                if (checkInString.isEmpty()) {
+                    Toast.makeText(this, "Check-in date is empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (checkOutString.isEmpty()) {
+                    Toast.makeText(this, "Check-Out date is empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
 
                 Intent intent = new Intent(this, Result.class);
@@ -179,9 +189,6 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
 
 
-
-
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, city not found, try again!", Toast.LENGTH_LONG).show();
@@ -190,31 +197,29 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
             }
 
 
-
         }
 
 
+    }
 
 
-
-        }
-
-
-    public void singapore(View view){
+    public void singapore(View view) {
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Singapore");
         intent.putExtra("latLng", new LatLng(1.290270, 103.851959));
         startActivity(intent);
 
     }
-    public void santamonica(View view){
+
+    public void santamonica(View view) {
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Santa Monica");
         intent.putExtra("latLng", new LatLng(34.024212, -118.496475));
         startActivity(intent);
 
     }
-    public void lasvegas(View view){
+
+    public void lasvegas(View view) {
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Las Vegas");
         intent.putExtra("latLng", new LatLng(36.114647, -115.172813));
@@ -222,7 +227,11 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    public void translate(View view) {
+        Intent intent = new Intent(this, Translate.class);
+        startActivity(intent);
 
 
     }
 
+}

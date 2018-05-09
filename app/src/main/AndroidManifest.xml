@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Translate"/>
         <activity android:name=".Result" />
         <activity android:name=".GooglePlace"></activity>
 

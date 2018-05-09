@@ -119,6 +119,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp">
+
+
+
                 <Button
                     android:id="@+id/b1"
                     android:layout_width="match_parent"
@@ -160,6 +163,16 @@
                     android:textColor="#fff"
                     android:textStyle="bold"/>
 
+                <Button
+                    android:id="@+id/b4"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:padding="5dp"
+                    android:layout_below="@id/b3"
+                    android:text="translate"
+                    android:onClick="translate"/>
 
             </RelativeLayout>
 
