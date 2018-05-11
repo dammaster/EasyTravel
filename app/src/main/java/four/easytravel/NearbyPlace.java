@@ -10,11 +10,15 @@ public class NearbyPlace {
 
     String name;
     LatLng latLng;
+    String placeId;
+    String address;
 
-    NearbyPlace(String name, LatLng latLng){
+    NearbyPlace(String name, LatLng latLng, String placeId, String address){
 
         this.name = name;
         this.latLng = latLng;
+        this.placeId = placeId;
+        this.address = address;
     }
 
     public String getName() {
@@ -23,6 +27,14 @@ public class NearbyPlace {
 
     public LatLng getLatLng() {
         return latLng;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
 }

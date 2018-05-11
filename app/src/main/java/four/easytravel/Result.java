@@ -133,9 +133,10 @@ public class Result extends AppCompatActivity {
                         String latString = String.valueOf(location.getDouble("latitude"));
                         String lngString = String.valueOf(location.getDouble("longitude"));
 
-
-
-
+                        /*String property_name_nospace = property_name.replaceAll(" ", "+");
+                        String placeUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+property_name_nospace+"&location="+latString+","+lngString+"&radius=100&key=" + getString(R.string.google_api_key);
+                        String jsonPlaceStr = sh.makeServiceCall(placeUrl);
+                        Log.e(TAG, "Response from place url: " + jsonPlaceStr );*/
 
                         // tmp hash map for single contact
                         HashMap<String, String> result = new HashMap<>();

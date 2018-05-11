@@ -6,11 +6,14 @@ import android.os.AsyncTask;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,11 +22,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -37,9 +43,14 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
     public String property_name,cityLocate;
     LatLng hotelLatLng;
 
+    RecyclerView placeListRecyclerView;
+
     String voiceInput;
 
     ArrayList<NearbyPlace> placeList;
+
+    Gson gson;
+    Type type;
 
     GoogleMap map;
 
@@ -52,6 +63,7 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        placeListRecyclerView = findViewById(R.id.place_list_recycler_view);
 
         cityLocate = getIntent().getStringExtra("cityLocate");
         city = findViewById(R.id.city);
@@ -63,6 +75,9 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
 
         hotelLatLng = getIntent().getParcelableExtra("latLng");
         Log.d(TAG, "onCreate: " + hotelLatLng.toString());
+
+        gson = new Gson();
+        type = new TypeToken<Place>(){}.getType();
 
     }
 
@@ -138,20 +153,19 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
 
                     JSONArray results = jsonObj.getJSONArray("results");
 
-                    Log.d(TAG, "doInBackground: ANY RESULTS?! " + results.length());
 
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject j = results.getJSONObject(i);
 
-                        Log.d(TAG, "doInBackground: FOUND OBJECT!");
-
                         String name = j.getString("name");
                         JSONObject JsonGeometry = j.getJSONObject("geometry");
                         JSONObject JsonLocation = JsonGeometry.getJSONObject("location");
+                        String placeId = j.getString("place_id");
+                        String address = j.getString("vicinity");
 
                         LatLng latLng = new LatLng(JsonLocation.getDouble("lat"), JsonLocation.getDouble("lng"));
 
-                        NearbyPlace result = new NearbyPlace(name, latLng);
+                        NearbyPlace result = new NearbyPlace(name, latLng, placeId, address);
 
                         placeList.add(result);
                     }
@@ -196,9 +210,19 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
             map.animateCamera(cameraUpdate);
 
             for (NearbyPlace n : placeList){
-                Log.d(TAG, "onPostExecute: "+ n.getName());
-                map.addMarker(new MarkerOptions().position(n.getLatLng()).title(n.getName()));
+                map.addMarker(new MarkerOptions().position(n.getLatLng()).title(n.getName().toString()));
             }
+
+            setupRecyclerView();
         }
+    }
+
+    public void setupRecyclerView(){
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        GooglePlaceListAdapter mAdapter = new GooglePlaceListAdapter(this, mLayoutManager, placeList);
+
+        placeListRecyclerView.setLayoutManager(mLayoutManager);
+        placeListRecyclerView.setAdapter(mAdapter);
     }
 }
