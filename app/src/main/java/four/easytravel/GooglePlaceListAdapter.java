@@ -84,7 +84,7 @@ public class GooglePlaceListAdapter extends RecyclerView.Adapter<GooglePlaceList
         holder.address.setText(place.getAddress());
         holder.amount.setText("");
         holder.currency.setText("");
-        //holder.image.setImageResource(place.ge);
+        holder.image.setImageBitmap(place.getImage());
 
 
     }

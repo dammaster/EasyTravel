@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,6 +51,7 @@
             android:onClick="speakButtonPressed"
             app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
+
     </RelativeLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,12 +65,28 @@
         tools:context="four.easytravel.GooglePlace"
         />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/place_list_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/place_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
     </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/place_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        />
+
+    </RelativeLayout>
 
 </LinearLayout>

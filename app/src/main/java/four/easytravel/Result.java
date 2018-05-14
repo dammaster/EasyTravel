@@ -1,8 +1,10 @@
 package four.easytravel;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,6 +38,8 @@ public class Result extends AppCompatActivity {
     TextView dateCheckInCheckOut;
     String property_name,line1,amount,currency;
 
+    View progress;
+
     ArrayList<HashMap<String, String>> contactList;
 
     @Override
@@ -43,7 +47,7 @@ public class Result extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-
+        progress = findViewById(R.id.result_progress);
 
         location = getIntent().getStringExtra("location");
         checkIn = getIntent().getStringExtra("checkIn");
@@ -95,15 +99,17 @@ public class Result extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
          //   Toast.makeText(Result.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
+            showProgress(true);
 
         }
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
 
-            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
+            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey="+getString(R.string.amadeus_api_key);
             //  String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in=2018-09-01&check_out=2018-09-03&number_of_results=10&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             String jsonStr = sh.makeServiceCall(url);
 
@@ -185,6 +191,9 @@ public class Result extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+
+            showProgress(false);
+
             ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
                     R.layout.list_item, new String[]{ "property_name","line1","amount","currency"},
                     new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency});
@@ -220,15 +229,35 @@ public class Result extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     public void back(View view){
         finish();
 
     }
+
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+
+            progress.setVisibility(show ? View.VISIBLE : View.GONE);
+            progress.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progress.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progress.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+
+    }
+
 
 
 

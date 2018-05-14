@@ -1,5 +1,8 @@
 package four.easytravel;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -13,6 +16,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class HttpHandler {
+
 
     private static final String TAG = HttpHandler.class.getSimpleName();
 
@@ -60,5 +64,26 @@ public class HttpHandler {
         }
 
         return sb.toString();
+    }
+
+    public Bitmap makeServiceCallForImage(String reqUrl) {
+        Bitmap response = null;
+        try {
+            URL url = new URL(reqUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            // read the response
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            response = BitmapFactory.decodeStream(in);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "MalformedURLException: " + e.getMessage());
+        } catch (ProtocolException e) {
+            Log.e(TAG, "ProtocolException: " + e.getMessage());
+        } catch (IOException e) {
+            Log.e(TAG, "IOException: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
+        return response;
     }
 }
