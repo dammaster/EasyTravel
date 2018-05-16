@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="google_api_key">AIzaSyCNOshhnqrcA1Gb6wUbzDYgdZZf4RPRjss</string>
+    <string name="google_place_id">AIzaSyD-tsYfjVJvWrXjJXbib6YnxMCfgZ4Copo</string>
+    <string name="amadeus_api_key">AmfQfDG2ePAGGfj3jXa8ImItsOYDSVVE</string>
+</resources>

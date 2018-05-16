@@ -6,14 +6,20 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
@@ -32,17 +38,16 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     private int mYear, mMonth, mDay;
     String zero;
     LatLng latLng;
-    EditText location_tf;
+    //EditText location_tf;
     String location;
     Button b1,b2,b3;
     String currentDate;
+    PlaceAutocompleteFragment autocompleteFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
-
-
 
         checkIn=(EditText)findViewById(R.id.checkIn);
         checkOut=(EditText)findViewById(R.id.checkOut);
@@ -56,16 +61,29 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         checkIn.setOnClickListener(this);
         checkOut.setOnClickListener(this);
 
+        autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        AutocompleteFilter typeFilter = new AutocompleteFilter.Builder().setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES).build();
+        autocompleteFragment.setFilter(typeFilter);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.i(TAG, "Place: " + place.getName());
+                location = place.getName().toString();
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+
 
 
         // currentDate dafault
-       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-       // currentDate = sdf.format(new Date());
-       // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
-
-
-       //hidden keyboard
-       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // currentDate = sdf.format(new Date());
+        // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
 
 
     }
@@ -124,11 +142,8 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        location_tf = (EditText) findViewById(R.id.TFadreess);
-
-
-
-        location = location_tf.getText().toString();
+        //location_tf = (EditText) findViewById(R.id.TFadreess);
+        //location = location_tf.getText().toString();
         List<Address> addressList;
         if (location != null || !location.equals("")) ;
         {
@@ -144,7 +159,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 lat = address.getLatitude();
                 lng = address.getLongitude();
 
-              //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
                 checkInString = checkIn.getText().toString();
@@ -182,29 +197,32 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        }
+    }
 
 
     public void singapore(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Singapore");
+        intent.putExtra("latLng", new LatLng(1.290270, 103.851959));
         startActivity(intent);
 
     }
     public void santamonica(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Santa Monica");
+        intent.putExtra("latLng", new LatLng(34.024212, -118.496475));
         startActivity(intent);
 
     }
     public void lasvegas(View view){
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Las Vegas");
+        intent.putExtra("latLng", new LatLng(36.114647, -115.172813));
         startActivity(intent);
 
     }
 
 
 
-    }
+}
 
