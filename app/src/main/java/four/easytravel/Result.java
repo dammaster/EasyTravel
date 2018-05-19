@@ -3,8 +3,8 @@ package four.easytravel;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -38,6 +41,8 @@ public class Result extends AppCompatActivity {
     TextView dateCheckInCheckOut;
     String property_name,line1,amount,currency;
 
+    ArrayList<HashMap<String, String>> amadeusList;
+    private Activity rootView;
     View progress;
 
     ArrayList<HashMap<String, String>> contactList;
@@ -47,7 +52,7 @@ public class Result extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        progress = findViewById(R.id.result_progress);
+
 
         location = getIntent().getStringExtra("location");
         checkIn = getIntent().getStringExtra("checkIn");
@@ -105,11 +110,10 @@ public class Result extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
 
-            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey="+getString(R.string.amadeus_api_key);
+            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             //  String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in=2018-09-01&check_out=2018-09-03&number_of_results=10&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             String jsonStr = sh.makeServiceCall(url);
 
@@ -135,14 +139,13 @@ public class Result extends AppCompatActivity {
                         amount = total_price.getString("amount");
                         currency = total_price.getString("currency");
 
-                        JSONObject location = c.getJSONObject("location");
-                        String latString = String.valueOf(location.getDouble("latitude"));
-                        String lngString = String.valueOf(location.getDouble("longitude"));
 
-                        /*String property_name_nospace = property_name.replaceAll(" ", "+");
-                        String placeUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+property_name_nospace+"&location="+latString+","+lngString+"&radius=100&key=" + getString(R.string.google_api_key);
-                        String jsonPlaceStr = sh.makeServiceCall(placeUrl);
-                        Log.e(TAG, "Response from place url: " + jsonPlaceStr );*/
+                        JSONArray amenities = c.getJSONArray("amenities");
+                        for(int n = 0; n < amenities.length(); n++) {
+                            amenity = amenities.getString(n);
+                        }
+
+
 
                         // tmp hash map for single contact
                         HashMap<String, String> result = new HashMap<>();
@@ -191,12 +194,9 @@ public class Result extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-            showProgress(false);
-
-            ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
-                    R.layout.list_item, new String[]{ "property_name","line1","amount","currency"},
-                    new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency});
+            ListAdapter adapter = new SimpleAdapter(Result.this, amadeusList,
+                    R.layout.list_item, new String[]{ "property_name","line1","amount","currency","images","pool","pets","parking"},
+                    new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency,R.id.imageView,R.id.imagePool,R.id.imagePets,R.id.imageParking});
 
             lv.setAdapter(adapter);
 
@@ -225,8 +225,16 @@ public class Result extends AppCompatActivity {
 
 
 
+
+
+
         }
     }
+
+
+
+
+
 
 
     public void back(View view){
