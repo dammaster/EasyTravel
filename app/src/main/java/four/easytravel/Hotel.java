@@ -81,9 +81,9 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
         // currentDate dafault
-       // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-       // currentDate = sdf.format(new Date());
-       // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // currentDate = sdf.format(new Date());
+        // Toast.makeText(Hotel.this, currentDate, Toast.LENGTH_LONG).show();
 
 
     }
@@ -159,7 +159,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 lat = address.getLatitude();
                 lng = address.getLongitude();
 
-              //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                //  latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
 
                 checkInString = checkIn.getText().toString();
@@ -197,7 +197,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-        }
+    }
 
 
     public void singapore(View view){
@@ -224,5 +224,5 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
 
 
-    }
+}
 

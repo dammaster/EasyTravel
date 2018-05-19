@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.speech.RecognizerIntent;
@@ -274,5 +273,4 @@ public class GooglePlace extends AppCompatActivity implements OnMapReadyCallback
             progress.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
-
 }

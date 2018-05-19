@@ -2,15 +2,18 @@ package four.easytravel;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -34,12 +37,17 @@ public class Result extends AppCompatActivity {
 
     private String TAG = Result.class.getSimpleName();
     private ListView lv;
-    private String checkIn,checkOut,location;
+    private String checkIn,checkOut,location, images, amenity;
     public static double lat;
     public static double lng;
     Button buttonSearch;
     TextView dateCheckInCheckOut;
     String property_name,line1,amount,currency;
+    ImageView imageView, imagePool,imagePets,imageParking;
+    int imageId[]={R.drawable.hotel,R.drawable.hotel1,R.drawable.hotel2,R.drawable.hotel3,R.drawable.hotel4,
+            R.drawable.hotel5,R.drawable.hotel6,R.drawable.hotel7,R.drawable.hotel8,R.drawable.hotel9,R.drawable.hotel10,
+            R.drawable.hotel,R.drawable.hotel1,R.drawable.hotel2,R.drawable.hotel3,R.drawable.hotel4,
+            R.drawable.hotel5,R.drawable.hotel6,R.drawable.hotel7,R.drawable.hotel8,R.drawable.hotel9,R.drawable.hotel10};
 
     ArrayList<HashMap<String, String>> amadeusList;
     private Activity rootView;
@@ -52,7 +60,7 @@ public class Result extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-
+        progress = findViewById(R.id.result_progress);
 
         location = getIntent().getStringExtra("location");
         checkIn = getIntent().getStringExtra("checkIn");
@@ -90,13 +98,6 @@ public class Result extends AppCompatActivity {
         new GetContacts().execute();
 
 
-
-
-
-
-
-
-
     }
 
     private class GetContacts extends AsyncTask<Void, Void, Void> {
@@ -113,7 +114,7 @@ public class Result extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
 
-            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
+            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=" + getString(R.string.amadeus_api_key);
             //  String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in=2018-09-01&check_out=2018-09-03&number_of_results=10&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             String jsonStr = sh.makeServiceCall(url);
 
@@ -139,6 +140,10 @@ public class Result extends AppCompatActivity {
                         amount = total_price.getString("amount");
                         currency = total_price.getString("currency");
 
+                        JSONObject location = c.getJSONObject("location");
+                        String latString = String.valueOf(location.getDouble("latitude"));
+                        String lngString = String.valueOf(location.getDouble("longitude"));
+
 
                         JSONArray amenities = c.getJSONArray("amenities");
                         for(int n = 0; n < amenities.length(); n++) {
@@ -150,9 +155,29 @@ public class Result extends AppCompatActivity {
                         // tmp hash map for single contact
                         HashMap<String, String> result = new HashMap<>();
 
+                        boolean resultPool = amenity.contains("POOL") || amenity.contains("Pool");
+                        if(resultPool){
+                            result.put("pool", "android.resource://four.easytravel/" + R.drawable.outline_pool_black_24dp);
+                        }else{
+                            result.put("pool", "android.resource://four.easytravel/" + R.drawable.outline_pool_black_g_24dp);
+                        }
+                        boolean resultPets = amenity.contains("PETS") || amenity.contains("Pets");
+                        if(resultPets){
+                            result.put("pets", "android.resource://four.easytravel/" + R.drawable.outline_pets_black_g_24dp);
+                        }else{
+                            result.put("pets", "android.resource://four.easytravel/" + R.drawable.outline_pets_black_24dp);
+                        }
+                        boolean resultParking = amenity.contains("PARKING") || amenity.contains("Parking");
+                        if(resultParking){
+                            result.put("parking", "android.resource://four.easytravel/" + R.drawable.round_local_parking_black_24dp);
+                        }else{
+                            result.put("parking", "android.resource://four.easytravel/" + R.drawable.round_local_parking_black_g_24dp);
+                        }
+
                       //  adding each child node to HashMap key => value
                       //  result.put("origen", origen);
                         result.put("property_name", property_name);
+                        result.put("images", "android.resource://four.easytravel/" + imageId[i]);
                         result.put("line1", line1);
                         result.put("amount", amount);
                         result.put("currency", currency);
@@ -194,11 +219,16 @@ public class Result extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            ListAdapter adapter = new SimpleAdapter(Result.this, amadeusList,
+
+            showProgress(false);
+
+            ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
                     R.layout.list_item, new String[]{ "property_name","line1","amount","currency","images","pool","pets","parking"},
                     new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency,R.id.imageView,R.id.imagePool,R.id.imagePets,R.id.imageParking});
 
             lv.setAdapter(adapter);
+
+
 
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -222,19 +252,8 @@ public class Result extends AppCompatActivity {
             });
 
 
-
-
-
-
-
-
         }
     }
-
-
-
-
-
 
 
     public void back(View view){
