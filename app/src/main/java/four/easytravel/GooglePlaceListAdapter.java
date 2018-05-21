@@ -35,18 +35,14 @@ public class GooglePlaceListAdapter extends RecyclerView.Adapter<GooglePlaceList
         protected TextView address;
         protected ImageView image;
 
-        protected TextView amount;
-        protected TextView currency;
 
         public ViewHolder(View v) {
             super(v);
 
             propertyName = (TextView) v.findViewById(R.id.property_name);
             address = (TextView) v.findViewById(R.id.line1);
-            image = v.findViewById(R.id.imageView);
+            image = v.findViewById(R.id.imageView_place);
 
-            amount = v.findViewById(R.id.amount);
-            currency = v.findViewById(R.id.currency);
 
         }
 
@@ -65,7 +61,7 @@ public class GooglePlaceListAdapter extends RecyclerView.Adapter<GooglePlaceList
     public GooglePlaceListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.place_card_view, parent, false);
 
         mContext = parent.getContext();
 
@@ -82,9 +78,7 @@ public class GooglePlaceListAdapter extends RecyclerView.Adapter<GooglePlaceList
 
         holder.propertyName.setText(place.getName());
         holder.address.setText(place.getAddress());
-        holder.amount.setText("");
-        holder.currency.setText("");
-        //holder.image.setImageResource(place.ge);
+        holder.image.setImageBitmap(place.getImage());
 
 
     }

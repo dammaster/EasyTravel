@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +18,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.squareup.picasso.Picasso;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -50,10 +46,7 @@ public class Result extends AppCompatActivity {
             R.drawable.hotel5,R.drawable.hotel6,R.drawable.hotel7,R.drawable.hotel8,R.drawable.hotel9,R.drawable.hotel10};
 
     ArrayList<HashMap<String, String>> amadeusList;
-    private Activity rootView;
     View progress;
-
-    ArrayList<HashMap<String, String>> contactList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,30 +70,16 @@ public class Result extends AppCompatActivity {
         dateCheckInCheckOut.setText(checkInOut);
 
 
-
-
-        contactList = new ArrayList<>();
+        amadeusList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.list);
-/*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(Result.this, GooglePlace.class);
-                myIntent.putExtra("cityLocate", line1);
-                startActivity(myIntent);
 
 
-            }
-        });
-
-*/
-
-
-        new GetContacts().execute();
+        new GetAmadeus().execute();
 
 
     }
 
-    private class GetContacts extends AsyncTask<Void, Void, Void> {
+    private class GetAmadeus extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -114,7 +93,7 @@ public class Result extends AppCompatActivity {
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
 
-            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=50&apikey=" + getString(R.string.amadeus_api_key);
+            String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude="+lat+"&longitude="+lng+"&radius=50&check_in="+checkIn+"&check_out="+checkOut+"&number_of_results=20&apikey=" + getString(R.string.amadeus_api_key);
             //  String url = "http://api.sandbox.amadeus.com/v1.2/hotels/search-circle?latitude=43.6&longitude=7.2&radius=50&check_in=2018-09-01&check_out=2018-09-03&number_of_results=10&apikey=GMGRaaEkyZI20SgUDtUYOkxihT9VPnQF";
             String jsonStr = sh.makeServiceCall(url);
 
@@ -175,7 +154,6 @@ public class Result extends AppCompatActivity {
                         }
 
                       //  adding each child node to HashMap key => value
-                      //  result.put("origen", origen);
                         result.put("property_name", property_name);
                         result.put("images", "android.resource://four.easytravel/" + imageId[i]);
                         result.put("line1", line1);
@@ -185,8 +163,8 @@ public class Result extends AppCompatActivity {
                         result.put("longitude", lngString);
 
 
-                        // adding contact to contact list
-                        contactList.add(result);
+                        // adding result list
+                        amadeusList.add(result);
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -222,7 +200,7 @@ public class Result extends AppCompatActivity {
 
             showProgress(false);
 
-            ListAdapter adapter = new SimpleAdapter(Result.this, contactList,
+            ListAdapter adapter = new SimpleAdapter(Result.this, amadeusList,
                     R.layout.list_item, new String[]{ "property_name","line1","amount","currency","images","pool","pets","parking"},
                     new int[]{R.id.property_name,R.id.line1,R.id.amount,R.id.currency,R.id.imageView,R.id.imagePool,R.id.imagePets,R.id.imageParking});
 
