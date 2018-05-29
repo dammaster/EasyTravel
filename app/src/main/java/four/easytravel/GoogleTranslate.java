@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class GoogleTranslate {
     private String key;
-    private String key1;
+
     public GoogleTranslate(String apiKey) {
         key = apiKey;
     }
