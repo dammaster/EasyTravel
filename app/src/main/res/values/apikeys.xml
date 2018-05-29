@@ -3,4 +3,5 @@
 
         <string name="google_api_key">AIzaSyCNOshhnqrcA1Gb6wUbzDYgdZZf4RPRjss</string>
         <string name="amadeus_api_key">wnI3pyhYGZ5JWNEg7jrt1JfWifHSuFKL</string>
+    <string name="translate_api_key">AIzaSyBTBtfh9fHkvQbdev2UZPscb64J0m9c3ws</string>
     </resources>

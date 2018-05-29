@@ -56,6 +56,8 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         b2 = (Button) findViewById(R.id.b2);
         b3 = (Button) findViewById(R.id.b3);
 
+        location = "";
+
 
 
         checkIn.setOnClickListener(this);
@@ -141,12 +143,10 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
     public void onSearch(View view) {
 
 
-
         //location_tf = (EditText) findViewById(R.id.TFadreess);
         //location = location_tf.getText().toString();
         List<Address> addressList;
-        if (location != null || !location.equals("")) ;
-        {
+        if (location != null || !location.equals("")) {
 
 
             Geocoder geocoder = new Geocoder(this);
@@ -165,8 +165,14 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 checkInString = checkIn.getText().toString();
                 checkOutString = checkOut.getText().toString();
 
-                if (checkInString.isEmpty()){Toast.makeText(this, "Check-in date is empty", Toast.LENGTH_LONG).show(); return;}
-                if (checkOutString.isEmpty()){Toast.makeText(this, "Check-Out date is empty", Toast.LENGTH_LONG).show(); return;}
+                if (checkInString.isEmpty()) {
+                    Toast.makeText(this, "Check-in date is empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (checkOutString.isEmpty()) {
+                    Toast.makeText(this, "Check-Out date is empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
 
                 Intent intent = new Intent(this, Result.class);
@@ -179,9 +185,6 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
 
 
-
-
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Sorry, city not found, try again!", Toast.LENGTH_LONG).show();
@@ -189,13 +192,7 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
 
             }
 
-
-
         }
-
-
-
-
 
     }
 
@@ -218,6 +215,12 @@ public class Hotel extends AppCompatActivity implements View.OnClickListener {
         Intent intent = new Intent(this, GooglePlace.class);
         intent.putExtra("cityLocate", "Las Vegas");
         intent.putExtra("latLng", new LatLng(36.114647, -115.172813));
+        startActivity(intent);
+
+    }
+
+    public void translate(View view){
+        Intent intent = new Intent(this, GoogleMain.class);
         startActivity(intent);
 
     }

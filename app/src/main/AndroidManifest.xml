@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".Result" />
         <activity android:name=".GooglePlace" />
+        <activity android:name=".GoogleMain"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
